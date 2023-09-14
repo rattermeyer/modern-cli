@@ -1,0 +1,380 @@
+= Command Line
+
+== Oh-my-zsh (bash)
+
+* Link: https://ohmyz.sh/[Oh-my-zsh]
+
+    sudo apt install zsh
+    `sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`
+
+* powerlevel10k
+
+** Font Installation
+
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+
+*** install on linux
+*** configure terminal
+
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+** Set ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc.
+
+    omz reload
+
+** set default shell to zsh
+
+    chsh
+
+=== plugins
+
+Some Plugins to enable
+
+* git
+
+* gitignore: use gi list to list all available gitignore templates, gi [templatename] >> .gitignore
+* gradle: 
+
+plugins=(git gitignore gradle kubectl iterm2)
+
+=== Additional plugins
+
+.zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+.zshrc
+    plugins=(...  zsh-autosuggestions)
+
+
+list of plugins
+.zshrc
+    plugins=(git sdk kubectl fd httpie mvn gradle npm nvm zsh-autosuggestions)
+
+== fzf
+
+    sudo apt install fzf
+
+or
+
+    brew install fzf
+
+
+== bat
+
+    sudo apt install bat
+
+or
+
+    brew install bat
+
+setting alias
+
+    sudo ln -s /usr/bin/batcat /usr/bin/bat
+    echo alias cat="bat -p" >> ~/.zshrc
+
+
+== SDKman
+
+* wget -O- "https://get.sdkman.io" | bash
+* omz reload
+* sdk list java
+* sdk install java 17.0.8-tem
+* sdk install java 20.0.2-tem
+* sdk install maven 3.9.4
+* sdk config (==> auto_env = true)
+* omz reload
+* mkdir demo-java 
+* cd demo-java
+* sdk env init
+* add maven=3.9.4 to .sdkmanrc 
+* cd in / out
+
+== nvm
+
+* wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+* nvm install --lts
+* node -v > .nvmrc
+* nvm use
+
+
+== homebrew
+
+* /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+not working on Linux ARM
+
+== History browsing (mcfly)
+
+* curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
+
+* add eval "$(mcfly init zsh)" to last .zshrc
+* browse back in history
+
+
+== go
+
+(or amd64)
+PLATFORM=arm64
+VER=1.21.0
+wget https://dl.google.com/go/go${VER}.linux-${PLATFORM}.tar.gz
+sudo tar -C /usr/local -xzf go${VER}.linux-${PLATFORM}.tar.gz
+rm go${VER}.linux-${PLATFORM}.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc
+
+== Rust
+
+    curl https://sh.rustup.rs -sSf | sh
+
+== lsd
+
+    sudo apt install lsd (on newer versions)
+
+or
+
+    wget https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-v1.0.0-aarch64-unknown-linux-gnu.tar.gz
+
+    tar xzvf lsd-v1.0.0-aarch64-unknown-linux-gnu.tar.gz
+    sudo mv lsd-v1.0.0-aarch64-unknown-linux-gnu/lsd /usr/local/bin/lsd
+    echo alias ls="lsd" >> ~/.zshrc
+    omz reload
+
+== thefuck
+
+    brew install thefuck
+
+or
+
+    sudo apt update
+    sudo apt install python3-dev python3-pip python3-setuptools
+    pip3 install thefuck --user
+
+    echo 'export $PATH=$PATH:~/.local/bin' >> ~/.zshrc
+    echo 'eval "$(thefuck --alias)"' >> ~/.zshrc
+
+== tldr (man)
+
+    npm install -g tldr
+
+test:
+
+    tldr git archive
+    tldr tar 
+    tldr fd
+
+== up-to-date git version
+
+    sudo add-apt-repository ppa:git-core/ppa 
+
+== neovim (vim,vi)
+
+    brew install neovim
+
+    sudo apt install neovim
+
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo update-alternatives --config vi
+    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo update-alternatives --config vim
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+    sudo update-alternatives --config editor
+
+    git config --global core.editor vim
+
+== delta (git pager)
+
+    brew install git-delta
+
+or
+    wget https://github.com/dandavison/delta/releases/download/0.16.5/delta-0.16.5-aarch64-unknown-linux-gnu.tar.gz
+and extract and move to ~/.local/bin
+
+    git config --global core.pager delta
+    git config --global interactive.diffFilter "delta --color only"
+    git config --global delta.navigate true
+    git config --global delta.light false
+    git config --global merge.conflictstyle diff3
+    git config --global diff.colorMoved default
+
+ok lets clone and diff
+
+    git config --global user.email "richard.attermeyer@opitz-consulting.com"
+    git config --global user.name "Richard Attermeyer"
+
+== difftastic
+
+brew install difftastic
+
+or rust version
+
+cargo install --locked difftastic
+    git config --global diff.external difft
+    git config --global diff.tool difftastic
+    git config --global difftool.prompt false
+    git config --global difftool.difftastic.cmd=difft $LOCAL $REMOTE
+
+of course, if you use meld for merging and diffing, then you should skip diff tool configruation.
+
+== gittemplate
+
+    wget https://raw.githubusercontent.com/rattermeyer/spring-petclinic-rest/master/.git-commit-template.txt
+    git config --global commit.template ~/.git-commit-template.txt
+
+== lazygit (tig)
+
+brew install jesseduffield/lazygit/lazygit
+
+or Ubuntu (on ARM):
+
+    PLATFORM=arm64
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_${PLATFORM}.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+
+** also gitui, tig
+
+== pre-commit
+
+    brew install pre-commit
+
+or
+
+    pip install pre-commit
+
+in repo:
+
+    pre-commit install
+    pre-commit sample-config > .pre-commit.yml
+
+or 
+    wget https://raw.githubusercontent.com/rattermeyer/spring-petclinic-rest/master/.pre-commit-config.yaml 
+for a more advanced sample
+
+== fd (find)
+
+    sudo apt install fd-find
+    echo alias fd="fdfind" >> ~/.zshrc
+
+== ripgrep (grep)
+
+brew install ripgrep
+
+sudo apt install ripgrep
+
+== broot 
+
+    wget https://dystroy.org/broot/download/aarch64-unknown-linux-gnu/broot
+    chmod +x broot
+    sudo install broot /usr/local/bin
+
+or with rust and cargo
+
+    cargo install --locked --features clipboard broot
+
+ant then
+
+    omz reload
+    br
+
+== httpie / curlie (curl)
+
+    python3 -m pip install --upgrade pip wheel
+    python3 -m pip install httpie
+
+    brew install curlie
+
+    sudo apt install golang
+    go install github.com/rs/curlie@latest
+
+
+== jq / yq
+
+    sudo apt install jq
+
+
+    brew install yq
+
+or
+
+    go install github.com/mikefarah/yq/v4@latest
+    
+== dust
+
+Mac
+    brew install dust
+
+Linux
+    brew tap tgotwig/linux-dust && brew install dust
+
+or RUST package manager
+    cargo install du-dust
+    echo 'export PATH=$PATH:~/.cargo/bin' >> ~/.zshrc
+
+== duf
+
+    brew install duf
+
+or
+
+    sudo install duf
+
+== docker / k3d
+
+Ubuntu (22.10)
+
+    sudo apt install docker.io
+    sudo usermod -a -G docker $USER
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+    k3d cluster create demo
+
+== k9s
+
+    brew install derailed/k9s/k9s
+
+or
+
+    PLATFORM=arm64
+    VERSION=$(curl -s "https://api.github.com/repos/derailed/k9s/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo k9s.tar.gz https://github.com/derailed/k9s/releases/download/v${VERSION}/k9s_Linux_${PLATFORM}.tar.gz
+    tar xf k9s.tar.gz k9s
+    sudo install k9s /usr/local/bin
+
+== krew und plugins
+
+    (
+    set -x; cd "$(mktemp -d)" &&
+    OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+    ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+    KREW="krew-${OS}_${ARCH}" &&
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+    tar zxvf "${KREW}.tar.gz" &&
+    ./"${KREW}" install krew
+    )
+
+    echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc
+
+    kubectl krew install ctx ns tail
+
+== Dive
+
+Docker Image analysis
+(or amd64)
+
+    PLATFORM=arm64 
+    export DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    curl -OL https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_${PLATFORM;}.deb
+    sudo apt install ./dive_${DIVE_VERSION}_linux_${PLATFORM}.deb
+
+== top replacements
+
+gtop et al
+
+
+== sd (sed)
+
+==
