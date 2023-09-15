@@ -17,6 +17,14 @@
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
 
 *** install on linux
+
+one of
+
+    mv *ttf ~/.local/share/fonts
+    mv *.ttf ~/.fonts
+
+    fc-cache -fv
+
 *** configure terminal
 
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
